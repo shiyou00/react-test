@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>标题</title>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="telephone=no,email=no" name="format-detection"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta name="x5-orientation" content="portrait"/>
+    <style>
+        .red{
+            color:red;
+        }
+        .green{
+            color:green;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+
+
+<script src="../build/react.js"></script>
+<script src="../build/react-dom.js"></script>
+<script src="../build/browser.min.js"></script>
+<script type="text/babel">
+    var Hello = React.createClass({
+        getInitialState:function(){
+            return {
+                complete:true
+            }
+        },
+        isComplete:function(){
+            return this.state.complete ? "red":"green";
+        },
+        render:function(){
+            return (
+                <div className={this.isComplete()}>
+                    {this.props.children}
+                </div>
+            )
+        }
+    })
+    ReactDOM.render(
+        <Hello>
+            需要通过某一个值来判断展示什么样式,的函数写法
+        </Hello>,
+        document.querySelector('#app')
+    )
+</script>
+</body>
+</html>
