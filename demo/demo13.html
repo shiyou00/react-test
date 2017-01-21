@@ -50,19 +50,10 @@
             })
         },
         render:function(){
-            var show_pop = this.state.show;
-            var text = !show_pop?"点击出现":"点击消失";
-            var sho_pop_class = function(){
-                if(show_pop){
-                    return "pop slow_show"
-                }else{
-                    return "pop"
-                }
-            }
             return (
                 <div className="drop">
-                    <button onClick={this.handleClick}>{text}</button>
-                    <div className={sho_pop_class()}>出现了</div>
+                    <button onClick={this.handleClick}>{!this.state.show?"点击出现":"点击消失"}</button>
+                    <div className={this.state.show?"pop slow_show":"pop"}>出现了</div>
                 </div>
             )
         }

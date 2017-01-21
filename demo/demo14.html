@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>标题</title>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="telephone=no,email=no" name="format-detection"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta name="x5-orientation" content="portrait"/>
+    <style>
+        body,html{
+            width:100%;
+            transition: 1s all ease;
+        }
+        .wrapper{
+            height:3000px;
+            position: relative;
+        }
+        .goTop{
+            width:100px;
+            height:100px;
+            line-height: 100px;;
+            position:fixed;
+            bottom:0;
+            right:20px;
+            border:1px solid #ddd;
+            text-align: center;
+            display: none;
+        }
+        .activeShow{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="../build/react.js"></script>
+<script src="../build/react-dom.js"></script>
+<script src="../build/browser.min.js"></script>
+<script type="text/babel">
+
+    var App = React.createClass({
+        getInitialState:function(){
+            return {
+                show:false
+            }
+        },
+        moveToTarget:function(obj,iTarget){
+            var start=document.body.scrollTop||document.documentElement.scrollTop;
+            var dis=iTarget-start;
+            var count=Math.floor(700/16);
+            var n=0;
+            var timer=null;
+            timer=setInterval(function(){
+                n++;
+                var a=1-n/count;
+                var cur=start+(1-Math.pow(a,3))*dis;
+                document.documentElement.scrollTop=cur;
+                document.body.scrollTop=start+n/count*dis;
+                if(n==count){
+                    clearInterval(timer);
+                }
+            },16);
+        },
+        handleClick:function(e){
+            this.moveToTarget(this.refs.topName,0);
+        },
+        handleScroll:function(e){
+            var st=document.body.scrollTop||document.documentElement.scrollTop;
+            if(st>=200){
+                this.setState({
+                    show:true
+                })
+            }else{
+                this.setState({
+                    show:false
+                })
+            }
+            console.log(st);
+        },
+        componentDidMount:function(){
+            window.addEventListener('scroll', this.handleScroll);
+        },
+        render:function() {
+            return (
+                <div className={'wrapper'}>
+                    <div ref="topName" onClick={this.handleClick} className={this.state.show?"goTop activeShow":"goTop"}>返回顶部</div>
+                </div>
+            )
+        }
+    });
+
+    ReactDOM.render(
+        <App />,
+        document.getElementById('app')
+    );
+</script>
+</body>
+</html>
